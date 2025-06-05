@@ -1,0 +1,13 @@
+# vim debris
+.*.un~
+.*.swo
+.*.swp
+
+# macos debris
+.DS_Store
+*~
+
+a.out
+snail.h
+mike.h
+just_snail.h
