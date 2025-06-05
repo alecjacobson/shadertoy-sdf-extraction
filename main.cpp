@@ -64,7 +64,7 @@ vec2 map(vec3 p)
 
 int main()
 {
-  const int ns = 64;
+  const int ns = 256;
   Eigen::MatrixXd GV;
   igl::grid( Eigen::Vector3i(ns,ns,ns), GV);
   GV.rowwise() -= Eigen::RowVector3d(0.5, 0.5, 0.5);
