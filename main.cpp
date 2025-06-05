@@ -1,5 +1,6 @@
 #include "glsl.h"
 
+#define iChannel0 sampler2D()
 #define iChannel1 sampler2D()
 #define iChannel2 sampler2D()
 #define iChannel3 sampler2D()
@@ -9,15 +10,18 @@
 #define out
 //// https://www.shadertoy.com/view/ld3Gz2
 //#include "snail.h"
-////vec2 map(vec3 p)
-////{
-////  vec4 matInfo;
-////  vec2 opaque = mapOpaque(p, matInfo);
-////  vec2 transparent = mapTransparent(p, matInfo);
-////  return opaque.x < transparent.x ? opaque : transparent;
-////}
-////const float scale = 1.5;
-////const vec3 offset(-0.8, 0.0, 0.0);
+//vec2 map(vec3 p)
+//{
+//  vec4 matInfo;
+//  vec2 opaque = mapOpaque(p, matInfo);
+//  vec2 transparent = mapTransparent(p, matInfo);
+//  return opaque.x < transparent.x ? opaque : transparent;
+//}
+//const float scale = 1.5;
+//const vec3 offset(-0.8, 0.0, 0.0);
+
+// https://www.shadertoy.com/view/ld3Gz2
+//#include "snail.h"
 //vec2 map(vec3 p)
 //{
 //  vec4 matInfo;
@@ -29,10 +33,23 @@
 //const float scale = 0.95;
 //const vec3 offset(-0.35, 0.2, 0.0);
 
-// https://www.shadertoy.com/view/MsXGWr
-#include "mike.h"
-const float scale = 1.65;
-const vec3 offset(0.0, 1.45, 0.0);
+//// https://www.shadertoy.com/view/MsXGWr
+//#include "mike.h"
+//const float scale = 1.65;
+//const vec3 offset(0.0, 1.45, 0.0);
+
+// https://www.shadertoy.com/view/WsXSDH
+#include "cheeseburger-v2.h"
+const float scale = 2.9;
+//const vec3 offset(0.0, 0.0, 1.72);
+const vec3 offset(0.0, 0.0, 0.0);
+vec2 map(vec3 p)
+{
+  vec2 res;
+  res.x = model(p);
+  return res;
+}
+
 #undef out
 #undef in
 
@@ -47,7 +64,7 @@ const vec3 offset(0.0, 1.45, 0.0);
 
 int main()
 {
-  const int ns = 256;
+  const int ns = 64;
   Eigen::MatrixXd GV;
   igl::grid( Eigen::Vector3i(ns,ns,ns), GV);
   GV.rowwise() -= Eigen::RowVector3d(0.5, 0.5, 0.5);

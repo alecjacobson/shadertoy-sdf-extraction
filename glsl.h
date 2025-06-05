@@ -43,6 +43,10 @@ inline float smoothstep(float edge0, float edge1, float x) {
 inline float length(float x) {
     return std::abs(x);
 }
+// step
+inline float step(float edge, float x) {
+    return (x < edge) ? 0.0f : 1.0f;
+}
 
 
 
@@ -75,10 +79,13 @@ class vec2 {
 public:
     float x, y;
 
-    vec3_proxy xyy,yyx,yxy,xxx;
+    vec3_proxy xyy,yyx,yxy,xxx,yxx,xyx,xxy,yyy;
     vec2() : vec2(0.0f, 0.0f) {}
     vec2(float s_ ) : vec2(s_, s_) {}
-    vec2(float x_, float y_) : x(x_), y(y_), xyy(x,y,y),yyx(y,y,x),yxy(y,x,y),xxx(x,x,x) {}
+    vec2(float x_, float y_) : x(x_), y(y_), 
+    xyy(x,y,y),yyx(y,y,x),yxy(y,x,y),xxx(x,x,x),
+    yxx(y,x,x),xyx(x,y,x),xxy(x,x,y),yyy(y,y,y)
+    {}
 
     // Arithmetic
     vec2 operator+(const vec2& v) const { return vec2(x + v.x, y + v.y); }
@@ -171,12 +178,17 @@ public:
     float x, y, z;
 
 
-    vec2_proxy xy,yz,xz,zx; // This will be assigned properly in constructor
+    vec2_proxy xy,yz,xz,zx,yx;
+    vec3_proxy xyz,xxx,yzx,xyy,yxy,yyx;
 
     vec3() : x(0), y(0), z(0), xy(x,y), yz(y, z), xz(x,z),zx(z,x) {}
     vec3(float x_, float y_, float z_) : x(x_), y(y_), z(z_), xy(x,y), yz(y, z), xz(x,z),zx(z,x) {}
     vec3(float s_) : x(s_), y(s_), z(s_), xy(x,y), yz(y, z), xz(x,z),zx(z,x) {}
-    vec3(vec2 xy_, float z_) : x(xy_.x), y(xy_.y), z(z_), xy(x,y), yz(y, z), xz(x,z),zx(z,x) {}
+    vec3(vec2 xy_, float z_) : 
+      x(xy_.x), y(xy_.y), z(z_), 
+      xy(x,y), yz(y, z), xz(x,z),zx(z,x),yx(y,x),
+      xyz(x,y,z),xxx(x,x,x),yzx(y,z,x),xyy(x,y,y),yxy(y,x,y),yyx(y,y,x)
+    {}
 
 
     // Arithmetic
@@ -256,6 +268,12 @@ inline auto operator*(const Proxy& p, float s)
 {
     return vec3(p) * s;
 }
+template <typename Proxy>
+inline auto operator*(float s, const Proxy& p)
+    -> std::enable_if_t<std::is_class_v<Proxy>, decltype(s*vec3(p))>
+{
+    return s*vec3(p);
+}
 
 // vec4
 class vec4 {
@@ -264,7 +282,7 @@ public:
 
 
     vec2_proxy xy,yz,xz,zx; // This will be assigned properly in constructor
-    vec3_proxy xyz,yzw,yxz; // This will be assigned properly in constructor
+    vec3_proxy xyz,yzw,yxz,rgb; // This will be assigned properly in constructor
 
     vec4() : vec4(0.0f, 0.0f, 0.0f, 0.0f) {}
     vec4(float s_) : vec4(s_, s_, s_, s_) {}
@@ -273,7 +291,9 @@ public:
     vec4(float x_, float y_, float z_, float w_)
         : x(x_), y(y_), z(z_), w(w_),
         xy(x, y), yz(y, z), xz(x, z), zx(z, x),
-          xyz(x, y, z), yzw(y, z, w), yxz(y, z, x) {}
+          xyz(x, y, z), yzw(y, z, w), yxz(y, z, x),
+          rgb(x,y,z)
+  {}
 
     // Arithmetic
     vec4 operator+(const vec4& v) const { return vec4(x + v.x, y + v.y, z + v.z, w + v.w); }
@@ -764,6 +784,9 @@ public:
     }
 };
 
+// Vector-matrix multiplication
+inline vec2 operator*(const vec2& v, const mat2& m) { return transpose(m) * v; }
+inline vec3 operator*(const vec3& v, const mat3& m) { return transpose(m) * v; }
 
 // Definitions
 inline vec2_proxy::operator vec2() const {
