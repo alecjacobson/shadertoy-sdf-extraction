@@ -37,7 +37,7 @@ complete enough to run the shaders above. It's likely going to be missing
 functionality for other shaders. It's also purposefully not handling
 lighting/textures.
 
-The shadertoy examples linked above are copyrighted by Inigo Quilez. As per
-instruction, their contents are not included here.
+The shadertoy examples linked above are copyrighted by Inigo Quilez, Inigo Quilez, and Xor. As per
+instruction, Inigo Quilez's shader contents are not included here.
 
 
