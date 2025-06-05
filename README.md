@@ -26,6 +26,7 @@ Then run with something like:
 which will produce an `output.obj` file of a marching cubes mesh of the zero
 level set.
 
+![](cheeseburger-v2.png)
 
 Have a peek in `main.cpp` to see that it's easy to access the SDF function
 without requiring libigl (that's just for the grid creation, marching cubes, and
